@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Point, Position } from 'geojson';
+import { Position } from 'geojson';
 import { HttpClient } from '@angular/common/http';
-import * as coordinates from '../../../../coordinates.json';
-import * as segmentsExample from '../../../../segments_example.json';
-import Details from '../models/details';
+
+import * as segmentsExample from 'src/assets/segments_example.json';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,30 +12,6 @@ import { environment } from 'src/environments/environment';
 export class MarkersService {
 
   constructor(private httpClient: HttpClient) { }
-
-  _transformJsontoGeoJson(input: Object): {} {
-    let arrayOfPoints = [];
-    for (const [key, value] of Object.entries(input)) {
-        arrayOfPoints.push({
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [Number.parseFloat(value), Number.parseFloat(key)] as Position
-          },
-          properties: {
-            A2_RSSI: Math.random(),
-            segment: Math.round(Math.random() * 330)
-          }
-        });
-    }
-
-    const geoJsonObject = {
-      type: 'FeatureCollection',
-      features: arrayOfPoints.slice(0, 100)
-    }
-
-    return geoJsonObject;
-  }
 
   _transformSegmentsExampleToGeoJson(input: Object): {} {
     let arrayOfPoints = [];
