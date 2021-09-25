@@ -51,24 +51,24 @@ export class MapComponent implements OnInit {
     },
   ]
 
-  // The probability that needs to be passed to be rendered on the map.
+  // The threshold that needs to be passed to be rendered on the map.
   markerVisibilityThreshold = 0;
 
   layerConfigurations = [
     {
       name: 'layer-high',
       imageName: 'marker-red',
-      A2_RSSIBoundary: [1.2, 0.9],
+      range: [7, 0],
     },
     {
       name: 'layer-med',
       imageName: 'marker-orange',
-      A2_RSSIBoundary: [1.6, 1.2],
+      range: [14, 7],
     },
     {
       name: 'layer-other',
       imageName: 'marker-green',
-      A2_RSSIBoundary: [3, 1.6],
+      range: [100, 14],
     },
   ];
 
@@ -101,7 +101,7 @@ export class MapComponent implements OnInit {
           this.map.addSource('points', {
             type: 'geojson',
             data: geoJson as any,
-            filter: [">", ["get", "A2_RSSI"], this.markerVisibilityThreshold]
+            filter: [">", ["get", "daysUntilFailure"], this.markerVisibilityThreshold]
           });
 
           this.layerConfigurations.forEach((layerConfig) => {
@@ -121,13 +121,13 @@ export class MapComponent implements OnInit {
               },
               'filter': [
 								"all",
-								['>', 'A2_RSSI', layerConfig.A2_RSSIBoundary[1]],
-								['<=', 'A2_RSSI', layerConfig.A2_RSSIBoundary[0]],
+								['>', 'daysUntilFailure', layerConfig.range[1]],
+								['<=', 'daysUntilFailure', layerConfig.range[0]],
 							]
             })
           });
+          this.setupEventHandlers();
         })
-        this.setupEventHandlers();
       })
     });
   }
@@ -162,7 +162,7 @@ export class MapComponent implements OnInit {
 
           let htmlPopup = "<div style='text-align: center;'>";
 
-          const elementsToShow = ['segment', 'A2_RSSI'];
+          const elementsToShow = ['segmentNo', 'daysUntilFailure'];
 
           for (const element in (e.features as mapboxgl.MapboxGeoJSONFeature[])[0].properties) {
               if (elementsToShow.includes(element)) {

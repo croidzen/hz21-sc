@@ -23,11 +23,13 @@ export class MarkersService {
           coordinates: [value.Longitude, value.Latitude] as Position
         },
         properties: {
-          A2_RSSI: Number.parseFloat(value.A2_RSSI),
+          daysUntilFailure: Number.parseFloat(value.A2_RSSI) * 10,
           dateOfFailure: '2021-09-26',
-          segment: key,
+          segmentNo: key,
           longitude: value.Longitude,
           latitude: value.Latitude,
+          trackId: 1,
+          areaNumber: 100,
         }
       });
     }
@@ -41,12 +43,12 @@ export class MarkersService {
   }
 
   _httpGetMarkers(): Observable<{}> {
-    return this.httpClient.get<{}>(`${environment.apiUrl}/getMarkers`);
+    return this.httpClient.get<{}>(`${environment.apiUrl}/geoFeature`);
   }
 
   _httpGetGraphData(segmentNumber: number): Observable<{}> {
     const body = { segmentNumber }
-    return this.httpClient.post<{}>(`${environment.apiUrl}/getGraphData`, body);
+    return this.httpClient.post<{}>(`${environment.apiUrl}/graphRssi`, body);
   }
 
   getMarkers(): Observable<{}> {
@@ -58,6 +60,7 @@ export class MarkersService {
   }
 }
 
+@Injectable()
 export class MockMarkersService extends MarkersService {
   getMarkers(): Observable<{}> {
     return new Observable(observer => {
@@ -70,8 +73,14 @@ export class MockMarkersService extends MarkersService {
     return new Observable(observer => {
       const mockGraphData = {
         segmentNumber: segmentNumber,
-        labels: ["2021-09-25", "2021-09-26", "2021-09-27", "2021-09-28", "2021-09-29", "2021-09-30"],
-        data: [3, 2.5, 2, 1.5, 1, 0.5],
+        data: [
+          { x: "2021-09-25", y: 3 },
+          { x: "2021-09-26", y: 2.5 },
+          { x: "2021-09-27", y: 2 },
+          { x: "2021-09-28", y: 1.5 },
+          { x: "2021-09-29", y: 1 },
+          { x: "2021-09-30", y: 0.5 },
+        ]
       }
       observer.next(mockGraphData);
     });

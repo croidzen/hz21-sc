@@ -27,11 +27,14 @@ export class DetailViewComponent implements OnInit {
     this.setupInitialChart();
   }
 
+  getDaysUntilFailureAsInt() {
+    return Math.round(this.model?.daysUntilFailure ?? 0);
+  }
+
   setupInitialChart(): void {
     const initialGraphData: GraphData = {
       segmentNumber: 100,
-      labels: ["test"],
-      data: [0],
+      data: [{x: 10, y: 20}],
     }
 
     this.ctx = (document.getElementById('myChart') as ChartItem);
@@ -43,7 +46,6 @@ export class DetailViewComponent implements OnInit {
     return {
       type: 'line',
       data: {
-        labels: input.labels,
         datasets: [{
           label: `Segment ${input.segmentNumber}`,
           data: input.data,

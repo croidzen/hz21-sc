@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   mapboxAccessToken: 'pk.eyJ1IjoiaHoyMXNjIiwiYSI6ImNrdHl0bnIzOTA4OG8ybnBnczV5NnJzZHQifQ.HTcjwWGUyEUehgeUimIVxQ',
-  apiUrl: '',
+  apiUrl: 'https://hz21sc-be.herokuapp.com',
 };
 
 /*

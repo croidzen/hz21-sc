@@ -22,14 +22,16 @@ export class OverlayService {
 
   public showOverlayForSegment(props: MarkerProps) {
     const details = new Details(
-      props.A2_RSSI,
+      props.daysUntilFailure,
       props.dateOfFailure,
-      props.segment,
+      props.segmentNo,
       props.longitude,
       props.latitude,
+      props.trackId,
+      props.areaNumber,
     )
     this.detailsEmitter.next(details);
-    this.markersService.getSegmentGraphData(props.segment).subscribe(graphData => {
+    this.markersService.getSegmentGraphData(props.segmentNo).subscribe(graphData => {
       this.graphDataEmitter.next(graphData);
       this.showOverlay();
     });
