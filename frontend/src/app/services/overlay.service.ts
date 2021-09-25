@@ -20,11 +20,11 @@ export class OverlayService {
   }
 
   public showOverlayForSegment(segmentNumber: number, longitude: number, latitude: number) {
-    this.markersService.getMockSegmentDetails(segmentNumber).subscribe(details => {
+    this.markersService.getSegmentDetails(segmentNumber).subscribe(details => {
       details.longitude = longitude;
       details.latitude = latitude;
       this.detailsEmitter.next(details);
-      this.markersService.getMockSegmentGraphData(segmentNumber).subscribe(graphData => {
+      this.markersService.getSegmentGraphData(segmentNumber).subscribe(graphData => {
         this.graphDataEmitter.next(graphData);
         this.showOverlay();
       });

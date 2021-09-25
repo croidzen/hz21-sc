@@ -14,7 +14,7 @@ export class MarkersService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private _transformJsontoGeoJson(input: Object): {} {
+  _transformJsontoGeoJson(input: Object): {} {
     let arrayOfPoints = [];
     for (const [key, value] of Object.entries(input)) {
         arrayOfPoints.push({
@@ -38,7 +38,7 @@ export class MarkersService {
     return geoJsonObject;
   }
 
-  private _transformSegmentsExampleToGeoJson(input: Object): {} {
+  _transformSegmentsExampleToGeoJson(input: Object): {} {
     let arrayOfPoints = [];
     for (const [key, value] of Object.entries(input)) {
       arrayOfPoints.push({
@@ -68,22 +68,38 @@ export class MarkersService {
     return this.httpClient.get<{}>(`${environment.apiUrl}/getMarkers`);
   }
 
-  _httpGetSegmentDetails(): Observable<Details> {
-    return this.httpClient.get<Details>(`${environment.apiUrl}/getSegmentDetails`);
+  _httpGetSegmentDetails(segmentNumber: number): Observable<Details> {
+    const body = { segmentNumber }
+    return this.httpClient.post<Details>(`${environment.apiUrl}/getSegmentDetails`, body);
   }
 
-  _httpGetGraphData(): Observable<{}> {
-    return this.httpClient.get<{}>(`${environment.apiUrl}/getGraphData`);
+  _httpGetGraphData(segmentNumber: number): Observable<{}> {
+    const body = { segmentNumber }
+    return this.httpClient.post<{}>(`${environment.apiUrl}/getGraphData`, body);
   }
 
+  getMarkers(): Observable<{}> {
+    return this._httpGetMarkers();
+  }
+
+  getSegmentDetails(segmentNumber: number): Observable<Details> {
+    return this._httpGetSegmentDetails(segmentNumber);
+  }
+
+  getSegmentGraphData(segmentNumber: number): Observable<{}> {
+    return this._httpGetGraphData(segmentNumber);
+  }
+}
+
+export class MockMarkersService extends MarkersService {
   getMarkers(): Observable<{}> {
     return new Observable(observer => {
       const geoJsonData = this._transformSegmentsExampleToGeoJson(segmentsExample);
       observer.next(geoJsonData);
-    })
+    });
   }
 
-  getMockSegmentDetails(segmentNumber: number): Observable<Details> {
+  getSegmentDetails(segmentNumber: number): Observable<Details> {
     return new Observable(observer => {
       const details = new Details(
         'High', '29-09-2021', segmentNumber, 0, 0
@@ -92,7 +108,7 @@ export class MarkersService {
     });
   }
 
-  getMockSegmentGraphData(segmentNumber: number): Observable<{}> {
+  getSegmentGraphData(segmentNumber: number): Observable<{}> {
     return new Observable(observer => {
       const mockGraphData = {
         segmentNumber: segmentNumber,

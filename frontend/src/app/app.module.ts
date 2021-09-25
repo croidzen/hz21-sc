@@ -8,6 +8,7 @@ import { MapComponent } from './components/map/map.component';
 import { OverlayComponent } from './components/overlay/overlay.component';
 import { DetailViewComponent } from './components/detail-view/detail-view.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MarkersService, MockMarkersService } from './services/markers.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{ provide: MarkersService, useClass: MockMarkersService }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
