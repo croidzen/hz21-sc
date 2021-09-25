@@ -10,10 +10,28 @@ import { environment } from '../../../environments/environment';
 })
 export class MapComponent implements OnInit {
   map: mapboxgl.Map = undefined as unknown as mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/streets-v11';
-  lng = 8.05;
-  lat = 47.3;
-  zoom = 10;
+  style = {
+    version: 8,
+    sources: {
+      osm: {
+        type: 'raster',
+        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+        tileSize: 256,
+        attribution: `Map tiles by <a target='_top' rel='noopener' href='https://tile.openstreetmap.org/'>
+          OpenStreetMap tile servers</a>, under the <a target='_top' rel='noopener'
+          href='https://operations.osmfoundation.org/policies/tiles/'>tile usage policy</a>.
+          Data by <a target='_top' rel='noopener' href='http://openstreetmap.org'>OpenStreetMap</a>`
+      }
+    },
+    layers: [{
+      id: 'osm',
+      type: 'raster',
+      source: 'osm',
+    }],
+  };
+  lng = 8.1;
+  lat = 47.32;
+  zoom = 11;
 
   constructor(private markersService: MarkersService) { this.markersService = markersService; }
 
@@ -21,7 +39,7 @@ export class MapComponent implements OnInit {
     this.map = new mapboxgl.Map({
       accessToken: environment.mapboxAccessToken,
       container: 'map',
-      style: this.style,
+      style: this.style as any,
       zoom: this.zoom,
       center: [this.lng, this.lat]
     });
@@ -78,7 +96,6 @@ export class MapComponent implements OnInit {
             'source': 'points',
             'layout': {
               'icon-image': 'defaultImage',
-              'text-field': ['get', 'title'],
               'text-font': [
                 'Open Sans Semibold',
                 'Arial Unicode MS Bold'
