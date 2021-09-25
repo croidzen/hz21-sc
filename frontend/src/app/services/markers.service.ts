@@ -18,12 +18,16 @@ export class MarkersService {
           geometry: {
             type: 'Point',
             coordinates: [Number.parseFloat(value), Number.parseFloat(key)] as Position
-        }});
+          },
+          properties: {
+            probability: Math.random()
+          }
+        });
     }
 
     const geoJsonObject = {
       type: 'FeatureCollection',
-      features: arrayOfPoints.slice(0, 10000)
+      features: arrayOfPoints.slice(0, 100)
     }
 
     return geoJsonObject;
