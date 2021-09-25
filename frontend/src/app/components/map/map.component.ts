@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { MarkersService } from 'src/app/services/markers.service';
+import { OverlayService } from 'src/app/services/overlay.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -69,7 +70,10 @@ export class MapComponent implements OnInit {
     },
   ];
 
-  constructor(private markersService: MarkersService) { this.markersService = markersService; }
+  constructor(private markersService: MarkersService, private overlayService: OverlayService) {
+    this.markersService = markersService;
+    this.overlayService = overlayService;
+  }
 
   ngOnInit() {
     this.map = new mapboxgl.Map({
@@ -144,7 +148,9 @@ export class MapComponent implements OnInit {
       const currentLayer = layers![intLayers[i]];
 
       this.map.on('click', currentLayer.id, (e) => {
-          console.log(e.features![0].properties);
+        const props = e.features![0].properties
+          console.log(e.features![0]);
+          this.overlayService.showOverlayForSegment(props?.segment, props?.longitude, props?.latitude);
       });
 
       this.map.on('mouseenter', currentLayer.id, (e) => {
