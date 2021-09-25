@@ -49,23 +49,23 @@ export class MapComponent implements OnInit {
   ]
 
   // The probability that needs to be passed to be rendered on the map.
-  markerVisibilityThreshold = 0.6;
+  markerVisibilityThreshold = 0;
 
   layerConfigurations = [
     {
       name: 'layer-high',
       imageName: 'marker-red',
-      probabilityBoundary: [1, 0.8],
+      A2_RSSIBoundary: [1.2, 0.9],
     },
     {
       name: 'layer-med',
       imageName: 'marker-orange',
-      probabilityBoundary: [0.8, 0.6],
+      A2_RSSIBoundary: [1.6, 1.2],
     },
     {
       name: 'layer-other',
       imageName: 'marker-green',
-      probabilityBoundary: [0.6, 0],
+      A2_RSSIBoundary: [3, 1.6],
     },
   ];
 
@@ -88,14 +88,14 @@ export class MapComponent implements OnInit {
           this.map.loadImage(img.url, (error, res) => {
             this.map.addImage(img.name, res!)
             resolve();
-          })
+          });
         }))
       ).then(() => {
         this.markersService.getMarkers().subscribe(geoJson => {
           this.map.addSource('points', {
             type: 'geojson',
             data: geoJson as any,
-            filter: [">", ["get", "probability"], this.markerVisibilityThreshold]
+            filter: [">", ["get", "A2_RSSI"], this.markerVisibilityThreshold]
           });
 
           this.layerConfigurations.forEach((layerConfig) => {
@@ -115,8 +115,8 @@ export class MapComponent implements OnInit {
               },
               'filter': [
 								"all",
-								['>', 'probability', layerConfig.probabilityBoundary[1]],
-								['<=', 'probability', layerConfig.probabilityBoundary[0]],
+								['>', 'A2_RSSI', layerConfig.A2_RSSIBoundary[1]],
+								['<=', 'A2_RSSI', layerConfig.A2_RSSIBoundary[0]],
 							]
             })
           });
@@ -144,7 +144,7 @@ export class MapComponent implements OnInit {
       const currentLayer = layers![intLayers[i]];
 
       this.map.on('click', currentLayer.id, (e) => {
-          console.log(e.features);
+          console.log(e.features![0].properties);
       });
 
       this.map.on('mouseenter', currentLayer.id, (e) => {
@@ -154,7 +154,7 @@ export class MapComponent implements OnInit {
 
           let htmlPopup = "<div style='text-align: center;'>";
 
-          const elementsToShow = ['trackId', 'probability'];
+          const elementsToShow = ['segment', 'A2_RSSI'];
 
           for (const element in (e.features as mapboxgl.MapboxGeoJSONFeature[])[0].properties) {
               if (elementsToShow.includes(element)) {
