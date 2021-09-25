@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "serve": "ng serve",
+    "start": "node server.js",
+    "build": "ng build --configuration $ENVIRONMENT",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -22,6 +23,7 @@
     "@types/geojson": "^7946.0.8",
     "@types/mapbox-gl": "^2.4.2",
     "chart.js": "^3.5.1",
+    "express": "^4.17.1",
     "mapbox-gl": "^2.4.1",
     "rxjs": "~6.6.0",
     "save": "^2.4.0",
