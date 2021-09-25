@@ -8,6 +8,7 @@ import { MarkersService } from './markers.service';
 })
 export class OverlayService {
   detailsEmitter = new Subject<Details>();
+  graphDataEmitter = new Subject<{}>();
 
   constructor(private markersService: MarkersService) { this.markersService = markersService; }
 
@@ -23,7 +24,10 @@ export class OverlayService {
       details.longitude = longitude;
       details.latitude = latitude;
       this.detailsEmitter.next(details);
-      this.showOverlay();
-    })
+      this.markersService.getMockSegmentGraphData(segmentNumber).subscribe(graphData => {
+        this.graphDataEmitter.next(graphData);
+        this.showOverlay();
+      });
+    });
   }
 }

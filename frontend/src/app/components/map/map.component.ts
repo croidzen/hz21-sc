@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 })
 export class MapComponent implements OnInit {
   map: mapboxgl.Map = undefined as unknown as mapboxgl.Map;
+  // OpenStreetMap style thanks to: https://jsfiddle.net/g1rwx8kp/
   style = {
     version: 8,
     sources: {

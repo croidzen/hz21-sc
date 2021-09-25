@@ -72,6 +72,10 @@ export class MarkersService {
     return this.httpClient.get<Details>(`${environment.apiUrl}/getSegmentDetails`);
   }
 
+  _httpGetGraphData(): Observable<{}> {
+    return this.httpClient.get<{}>(`${environment.apiUrl}/getGraphData`);
+  }
+
   getMarkers(): Observable<{}> {
     return new Observable(observer => {
       const geoJsonData = this._transformSegmentsExampleToGeoJson(segmentsExample);
@@ -82,9 +86,20 @@ export class MarkersService {
   getMockSegmentDetails(segmentNumber: number): Observable<Details> {
     return new Observable(observer => {
       const details = new Details(
-        'High', '26-09-2021', segmentNumber, 0, 0
+        'High', '29-09-2021', segmentNumber, 0, 0
       );
       observer.next(details);
-    })
+    });
+  }
+
+  getMockSegmentGraphData(segmentNumber: number): Observable<{}> {
+    return new Observable(observer => {
+      const mockGraphData = {
+        segmentNumber: segmentNumber,
+        labels: ["2021-09-25", "2021-09-26", "2021-09-27", "2021-09-28", "2021-09-29", "2021-09-30"],
+        data: [3, 2.5, 2, 1.5, 1, 0.5],
+      }
+      observer.next(mockGraphData);
+    });
   }
 }

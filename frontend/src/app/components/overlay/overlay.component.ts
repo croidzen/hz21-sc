@@ -8,11 +8,13 @@ import { OverlayService } from 'src/app/services/overlay.service';
   styleUrls: ['./overlay.component.scss']
 })
 export class OverlayComponent implements OnInit {
-  details: Details
+  details: Details;
+  graphData: {};
 
   constructor(private overlayService: OverlayService) {
     this.overlayService = overlayService;
     this.details = new Details();
+    this.graphData = {};
   }
 
   ngOnInit(): void {
@@ -21,7 +23,8 @@ export class OverlayComponent implements OnInit {
     })
 
     const overlayElement = document.querySelector('.overlay');
-    overlayElement?.addEventListener('click', () => {
+    overlayElement?.addEventListener('click', e => {
+      if(e.target !== e.currentTarget) return;
       overlayElement.classList.add('hidden');
     })
   }
