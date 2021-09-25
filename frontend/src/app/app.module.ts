@@ -23,7 +23,8 @@ import { MarkersService, MockMarkersService } from './services/markers.service';
     AppRoutingModule,
     HttpClientModule,
   ],
-  providers: [{ provide: MarkersService, useClass: MockMarkersService }],
+  providers: [{ provide: MarkersService, useClass: MarkersService }], // Use this to enable live data.
+  // providers: [{ provide: MarkersService, useClass: MockMarkersService }], // Use this to enable mock data.
   bootstrap: [AppComponent]
 })
 export class AppModule { }

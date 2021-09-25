@@ -1,13 +1,14 @@
 export interface MarkerProps {
-    A2_RSSI: string,
+    daysUntilFailure: number,
     dateOfFailure: string,
-    segment: number,
+    segmentNo: number,
     longitude: number,
     latitude: number,
+    trackId: number,
+    areaNumber: number,
 }
 
 export interface GraphData {
     segmentNumber: number,
-    labels: string[],
-    data: number[],
+    data: {}[],
   }

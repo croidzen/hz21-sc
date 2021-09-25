@@ -1,10 +1,12 @@
 <div class="detail-view-container">
     <div class="detail-view-info-panel">
-        <span>Severity: {{ model?.severity }}</span>
+        <span>Days until failure: {{ getDaysUntilFailureAsInt() }}</span>
         <span>Estimated date of failure: {{ model?.dateOfFailure }}</span>
-        <span>Segment: {{ model?.segment }}</span>
+        <span>Segment: {{ model?.segmentNo }}</span>
         <span>Longitude: {{ model?.longitude }}</span>
         <span>Latitude: {{ model?.latitude }}</span>
+        <span>TrackId: {{ model?.trackId }}</span>
+        <span>AreaNumber: {{ model?.areaNumber }}</span>
     </div>
     <div class="detail-view-graph-container">
         <canvas id="myChart" class="detail-view-graph"></canvas>
