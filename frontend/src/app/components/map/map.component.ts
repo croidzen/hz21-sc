@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import { MarkerProps } from 'src/app/custom-types';
 import { MarkersService } from 'src/app/services/markers.service';
 import { OverlayService } from 'src/app/services/overlay.service';
 import { environment } from '../../../environments/environment';
@@ -151,7 +152,7 @@ export class MapComponent implements OnInit {
       this.map.on('click', currentLayer.id, (e) => {
         const props = e.features![0].properties
           console.log(e.features![0]);
-          this.overlayService.showOverlayForSegment(props?.segment, props?.longitude, props?.latitude);
+          this.overlayService.showOverlayForSegment(props as MarkerProps);
       });
 
       this.map.on('mouseenter', currentLayer.id, (e) => {

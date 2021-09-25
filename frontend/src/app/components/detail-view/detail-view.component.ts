@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Chart, ChartItem, registerables } from 'chart.js';
+import { GraphData } from 'src/app/custom-types';
 import Details from 'src/app/models/details';
 import { OverlayService } from 'src/app/services/overlay.service';
 
@@ -75,10 +76,4 @@ export class DetailViewComponent implements OnInit {
     this.chart = new Chart(this.ctx as ChartItem, chartData as any);
     this.chart.update();
   }
-}
-
-interface GraphData {
-  segmentNumber: number,
-  labels: string[],
-  data: number[],
 }

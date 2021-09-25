@@ -49,6 +49,7 @@ export class MarkersService {
         },
         properties: {
           A2_RSSI: Number.parseFloat(value.A2_RSSI),
+          dateOfFailure: '2021-09-26',
           segment: key,
           longitude: value.Longitude,
           latitude: value.Latitude,
@@ -68,11 +69,6 @@ export class MarkersService {
     return this.httpClient.get<{}>(`${environment.apiUrl}/getMarkers`);
   }
 
-  _httpGetSegmentDetails(segmentNumber: number): Observable<Details> {
-    const body = { segmentNumber }
-    return this.httpClient.post<Details>(`${environment.apiUrl}/getSegmentDetails`, body);
-  }
-
   _httpGetGraphData(segmentNumber: number): Observable<{}> {
     const body = { segmentNumber }
     return this.httpClient.post<{}>(`${environment.apiUrl}/getGraphData`, body);
@@ -80,10 +76,6 @@ export class MarkersService {
 
   getMarkers(): Observable<{}> {
     return this._httpGetMarkers();
-  }
-
-  getSegmentDetails(segmentNumber: number): Observable<Details> {
-    return this._httpGetSegmentDetails(segmentNumber);
   }
 
   getSegmentGraphData(segmentNumber: number): Observable<{}> {
@@ -96,15 +88,6 @@ export class MockMarkersService extends MarkersService {
     return new Observable(observer => {
       const geoJsonData = this._transformSegmentsExampleToGeoJson(segmentsExample);
       observer.next(geoJsonData);
-    });
-  }
-
-  getSegmentDetails(segmentNumber: number): Observable<Details> {
-    return new Observable(observer => {
-      const details = new Details(
-        'High', '29-09-2021', segmentNumber, 0, 0
-      );
-      observer.next(details);
     });
   }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { MarkerProps } from '../custom-types';
 import Details from '../models/details';
 import { MarkersService } from './markers.service';
 
@@ -19,15 +20,18 @@ export class OverlayService {
     }
   }
 
-  public showOverlayForSegment(segmentNumber: number, longitude: number, latitude: number) {
-    this.markersService.getSegmentDetails(segmentNumber).subscribe(details => {
-      details.longitude = longitude;
-      details.latitude = latitude;
-      this.detailsEmitter.next(details);
-      this.markersService.getSegmentGraphData(segmentNumber).subscribe(graphData => {
-        this.graphDataEmitter.next(graphData);
-        this.showOverlay();
-      });
+  public showOverlayForSegment(props: MarkerProps) {
+    const details = new Details(
+      props.A2_RSSI,
+      props.dateOfFailure,
+      props.segment,
+      props.longitude,
+      props.latitude,
+    )
+    this.detailsEmitter.next(details);
+    this.markersService.getSegmentGraphData(props.segment).subscribe(graphData => {
+      this.graphDataEmitter.next(graphData);
+      this.showOverlay();
     });
   }
 }
