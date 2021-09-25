@@ -121,7 +121,60 @@ export class MapComponent implements OnInit {
             })
           });
         })
+        this.setupEventHandlers();
       })
     });
+  }
+
+  setupEventHandlers() {
+    const layers = this.map.getStyle().layers;
+
+    const intLayers = layers!.reduce((array: number[], layer, index) => {
+      if(layer.id.includes('layer-'))
+          array.push(index);
+      return array;
+    }, []);
+
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
+    });
+
+    for (let i = 0; i < intLayers.length; i++) {
+      const currentLayer = layers![intLayers[i]];
+
+      this.map.on('click', currentLayer.id, (e) => {
+          console.log(e.features);
+      });
+
+      this.map.on('mouseenter', currentLayer.id, (e) => {
+          this.map.getCanvas().style.cursor = 'pointer';
+
+          const coordinates = ((e.features as mapboxgl.MapboxGeoJSONFeature[])[0].geometry as any).coordinates.slice();
+
+          let htmlPopup = "<div style='text-align: center;'>";
+
+          const elementsToShow = ['trackId', 'probability'];
+
+          for (const element in (e.features as mapboxgl.MapboxGeoJSONFeature[])[0].properties) {
+              if (elementsToShow.includes(element)) {
+                  htmlPopup += `${element}: ${e.features![0].properties![element]}<br>`;
+              }
+          };
+          htmlPopup += "</div>";
+
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+          }
+
+          popup.setLngLat(coordinates).setHTML(htmlPopup).addTo(this.map);
+      });
+
+      this.map.on('mouseleave', currentLayer.id, () => {
+          this.map.getCanvas().style.cursor = '';
+          popup.remove();
+      });
+  }
+
   }
 }

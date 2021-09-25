@@ -20,7 +20,8 @@ export class MarkersService {
             coordinates: [Number.parseFloat(value), Number.parseFloat(key)] as Position
           },
           properties: {
-            probability: Math.random()
+            probability: Math.random(),
+            trackId: Math.round(Math.random() * 10000)
           }
         });
     }
