@@ -1,12 +1,16 @@
 <div class="detail-view-container">
     <div class="detail-view-info-panel">
-        <span>Days until failure: {{ getDaysUntilFailureAsInt() }}</span>
-        <span>Estimated date of failure: {{ model?.dateOfFailure }}</span>
-        <span>Segment: {{ model?.segmentNo }}</span>
-        <span>Longitude: {{ model?.longitude }}</span>
-        <span>Latitude: {{ model?.latitude }}</span>
-        <span>TrackId: {{ model?.trackId }}</span>
-        <span>AreaNumber: {{ model?.areaNumber }}</span>
+        <div class="detail-view-info-panel-centered">
+            <h1 class="detail-view-info-panel-title">Forecast</h1>
+            <span>Days until failure: {{ getDaysUntilFailureAsInt() }}</span>
+            <span>Estimated date of failure: {{ model?.dateOfFailure }}</span>
+            <span>Segment: {{ model?.segmentNo }}</span>
+            <span>Longitude: {{ model?.longitude }}</span>
+            <span>Latitude: {{ model?.latitude }}</span>
+            <span>TrackId: {{ model?.trackId }}</span>
+            <span>AreaNumber: {{ model?.areaNumber }}</span>
+        </div>
+        <button class="detail-view-info-panel-button">Copy to Clipboard</button>
     </div>
     <div class="detail-view-graph-container">
         <canvas id="myChart" class="detail-view-graph"></canvas>

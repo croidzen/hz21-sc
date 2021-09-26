@@ -20,6 +20,10 @@ export class DetailViewComponent implements OnInit {
   ngOnInit(): void {
     Chart.register(...registerables);
 
+    document.querySelector('.detail-view-info-panel-button')?.addEventListener('click', () => {
+      navigator.clipboard.writeText(JSON.stringify(this.model));
+    })
+
     this.overlayService.graphDataEmitter.subscribe((graphData: {}) => {
       this.updateChart(graphData as GraphData);
     })

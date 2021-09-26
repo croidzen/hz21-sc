@@ -2,19 +2,18 @@
     display: flex;
     justify-content: space-between;
 
-    padding: 8px;
+    padding: 10px;
 
-    border: 1px solid black;
+    color: #e8eaed;
+    background-color: #202124;
+    border-bottom: 1px solid black;
 }
 
 .navbar-title {
-
-}
-
-.navbar-links {
-
+    font-weight: 500;
 }
 
 .navbar-link {
+    color: #e8eaed;
     margin: 0 5px;
 }
