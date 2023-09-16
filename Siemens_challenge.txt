@@ -1,0 +1,42 @@
+##Questions
+Is this only one train? If yes, timestamp is sufficient.
+Who is this system for? Maintenance team?
+
+
+
+##Ideas
+RSI forecast for every point of the track
+Current health status for every point of the track
+Try to find out the possible reasons for the bad signal
+Give detailed info, about what exactly is wrong with a signal or why do we expect it to fail soon.
+Cluster or categorise errors
+Other measurements for quality than SNR?
+Correlations of problems to (weather, date, time, what is next to the track there, etc.)
+
+
+
+#Howto
+Check data quality
+- do the gps data fit to train tracks?
+- do gps differences fit to train speed?
+For analytics, use track kilometer instead of gps, because 1d ist easier than 2d. For visualisation then map to gps
+
+
+
+
+Signal strength != telegram lost rate. Schranken liegt das Kabel unterm asphalt, maps api!
+
+3.0v signal = problem
+
+3s & 15meter = stop emergency
+
+Forecast ab wann?
+
+Cow fence heisst gutes signal aber viele drops, saisonal!
+
+
+Remove lines, where train does not move
+32k track, Break it down to 100m intervals (use stations 9 to 40)
+Average per interval per tour
+
+
